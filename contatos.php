@@ -1,53 +1,39 @@
-<?php setcookie('contatos');?>
+<?php 
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
-    <title>Gerenciador de Tarefas</title>
-</head>
-<body>
-    <h1>Gerenciador de contatos</h1>
-    <form>
-        <fieldset>
-            <label>
-                Nome:
-                <input type="text" name="nome">
-            </label>
-            <label>
-                Telefone:
-                <input type="tel" name="telefone">
-            </label>
-            <label>
-                Email:
-                <input type="mail" name="email">
-            </label>
-            <input type="submit" name="cadastrar">
-        </fieldset>
-    </form>
-    <?php
-        if(isset($_COOKIE)){
-            $_COOKIE['contatos'][] = $_GET['nome'];
-            $_COOKIE['contatos'][] = $_GET['telefone'];
-            $_COOKIE['contatos'][] = $_GET['email'];
-        }
-    
-        $lista_contatos = [];
+session_start();
 
-        if(array_key_exists('contatos', $_COOKIE)){
-            $lista_contatos = $_COOKIE['contatos'];
-        }
-    ?>
-    <table>
-        <tr>
-            <th>Contatos</th>
-        </tr>
-        <?php foreach($lista_contatos as $contatos) : ?>
-                <tr>
-                    <td><?php echo $contatos; ?></td>
-                </tr>
-        <?php endforeach; ?>
-    </table>
-</body>
-</html>
+require "banco.php";
+require "ajudantes.php";
+
+if(array_key_exists('nome', $_GET) && $_GET['nome'] != ''){
+
+    $contato['nome'] = $_GET['nome'];
+
+    if (array_key_exists('telefone', $_GET)) {
+        $contato['telefone'] = traduz_telefone_banco($_GET['telefone']);
+    }
+
+    if (array_key_exists('email', $_GET)) {
+        $contato['email'] = traduz_email_banco($_GET['email']);
+    }
+
+    if (array_key_exists('descricao', $_GET)) {
+        $contato['descricao'] = traduz_descricao_banco($_GET['descricao']);
+    }
+
+    if (array_key_exists('nascimento', $_GET)) {
+        $contato['nascimento'] = traduz_nascimento_banco($_GET['nascimento']);
+    }      
+
+    if (array_key_exists('favorito', $_GET)) {
+        $contato['favorito'] = 1;
+    }else{
+        $contato['favorito'] = 0;
+    }
+
+    gravar_contatos($conexao, $contato);
+}
+
+$lista_contatos = listar_contatos($conexao);
+
+require "template.php";
