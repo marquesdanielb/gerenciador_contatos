@@ -38,12 +38,10 @@ function gravar_contatos($conexao, $contato)
                     '{$contato['telefone']}',
                     '{$contato['email']}',
                     '{$contato['descricao']}',
-                    '{$contato['nascimento']}',
-                    '{$contato['favorito']}'
+                    {$nascimento},
+                    {$contato['favorito']}
                 )
             ";
 
     mysqli_query($conexao, $sqlQuery);
-
-
 }
