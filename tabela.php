@@ -6,6 +6,7 @@
         <th>Descrição</th>
         <th>Nascimento</th>
         <th>Favorito?</th>
+        <th>Opções</th>
     </tr>
     <?php foreach($lista_contatos as $contatos) : ?>
             <tr>
@@ -15,6 +16,14 @@
                 <td><?php echo $contatos['descricao']; ?></td>
                 <td><?php echo traduz_nascimento_exibir($contatos['nascimento']); ?></td>
                 <td><?php echo traduz_favorito($contatos['favorito']); ?></td>
+                <td>
+                    <a href="editar.php?id=<?php echo $contatos['id']; ?>">
+                        Editar
+                    </a>
+                    <a href="remover.php?id=<?php echo $contatos['id']; ?>">
+                        Remover
+                    </a>
+                </td>
             </tr>
     <?php endforeach; ?>
 </table>

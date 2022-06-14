@@ -5,6 +5,8 @@ session_start();
 require "banco.php";
 require "ajudantes.php";
 
+$exibir_tabela = true;
+
 if(array_key_exists('nome', $_GET) && $_GET['nome'] != ''){
 
     $contato['nome'] = $_GET['nome'];
@@ -32,7 +34,20 @@ if(array_key_exists('nome', $_GET) && $_GET['nome'] != ''){
     }
 
     gravar_contatos($conexao, $contato);
+
+    header('Location: contatos.php');
+    die();
 }
+
+$contato = [
+    'id' => 0,
+    'nome' => '',
+    'telefone' => '',
+    'email' => '',
+    'descricao' => '',
+    'nascimento' => '',
+    'favorito' => ''        
+];
 
 $lista_contatos = listar_contatos($conexao);
 

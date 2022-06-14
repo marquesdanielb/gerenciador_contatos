@@ -7,7 +7,11 @@
 </head>
 <body>
     <h1>Gerenciador de contatos</h1>
+
     <?php require('formulario.php'); ?>
-    <?php require('tabela.php'); ?>
+    <?php if($exibir_tabela) : ?>
+        <?php require('tabela.php'); ?>
+    <?php endif; ?>
+
 </body>
 </html>
