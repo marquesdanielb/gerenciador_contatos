@@ -19,6 +19,29 @@ function traduz_nascimento_exibir($data)
     return $data_exibir->format('d/m/Y');
 }
 
+function valida_nascimento($nascimento)
+{
+    $padrao = "/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/";
+    $resultado = preg_match($padrao, $nascimento);
+
+    if ($resultado == 0) {
+        
+        return false;
+    }
+
+    $partes = explode('/', $nascimento);
+
+    if (count($partes) != 3) {
+        return false;
+    }
+
+    $dia = $partes[0];
+    $mes = $partes[1];
+    $ano = $partes[2];
+
+    return checkdate($mes, $dia, $ano);
+}
+
 function traduz_favorito($codigo)
 {
     if ($codigo) {
@@ -30,20 +53,28 @@ function traduz_favorito($codigo)
     return $codigo;
 }
 
-function traduz_telefone_banco($telefone)
+function valida_telefone($telefone)
 {
-    if ($telefone == '') {
-        return null;
+    $padrao = "/^[0-9]{7}-[0-9]{4}$/";
+    $resultado = preg_match($padrao, $telefone);
+
+    if ($resultado == 0) {
+        return false;
     }
-    return $telefone;
+
+    return true;
 }
 
-function traduz_email_banco($email)
+function valida_email($email)
 {
-    if ($email == '') {
-        return null;
+    $padrao = "/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i";
+    $resultado = preg_match($padrao, $email);
+
+    if ($resultado == 0) {
+        return false;
     }
-    return $email;
+
+    return true;
 }
 
 function traduz_descricao_banco($descricao)
@@ -52,4 +83,9 @@ function traduz_descricao_banco($descricao)
         return null;
     }
     return $descricao;
+}
+
+function tem_post()
+{
+    return (count($_POST) != 0);
 }

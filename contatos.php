@@ -7,46 +7,76 @@ require "ajudantes.php";
 
 $exibir_tabela = true;
 
-if(array_key_exists('nome', $_GET) && $_GET['nome'] != ''){
+$tem_erros = false;
+$erros_validacao = [];
 
-    $contato['nome'] = $_GET['nome'];
+if(tem_post()){
+    $contato = [
+        'nome' => $_POST['nome'],
+        'telefone' => '',
+        'email' => '',
+        'descricao' => '',
+        'nascimento' => '',
+        'favorito' => ''        
+    ];
 
-    if (array_key_exists('telefone', $_GET)) {
-        $contato['telefone'] = traduz_telefone_banco($_GET['telefone']);
+    if (strlen($contato['nome']) == 0) {
+        $tem_erros = true;
+        $erros_validacao['nome'] = 'O nome do contato é obrigatório';
     }
 
-    if (array_key_exists('email', $_GET)) {
-        $contato['email'] = traduz_email_banco($_GET['email']);
+    if (array_key_exists('telefone', $_POST)) {
+        if (valida_telefone($_POST['telefone'])) {
+            $contato['telefone'] = $_POST['telefone'];
+        }else {
+            $tem_erros = true;
+            $erros_validacao['telefone'] = 'O telefone inserido não é válido';
+        }
     }
 
-    if (array_key_exists('descricao', $_GET)) {
-        $contato['descricao'] = traduz_descricao_banco($_GET['descricao']);
+    if (array_key_exists('email', $_POST)) {
+        if (valida_email($_POST['email'])) {
+            $contato['email'] = $_POST['email'];
+        }else {
+            $tem_erros = true;
+            $erros_validacao['email'] = 'O email inserido não é válido';
+        }
     }
 
-    if (array_key_exists('nascimento', $_GET)) {
-        $contato['nascimento'] = traduz_nascimento_banco($_GET['nascimento']);
-    }      
+    if (array_key_exists('descricao', $_POST)) {
+        $contato['descricao'] = $_POST['descricao'];
+    }
 
-    if (array_key_exists('favorito', $_GET)) {
+    if (array_key_exists('nascimento', $_POST)) {
+        if (valida_telefone($_POST['nascimento'])) {
+            $contato['nascimento'] = traduz_nascimento_banco($_POST['nascimento']);
+        }else {
+            $tem_erros = true;
+            $erros_validacao['nascimento'] = 'A data informada não é válida';
+        }
+    }
+
+    if (array_key_exists('favorito', $_POST)) {
         $contato['favorito'] = 1;
     }else{
         $contato['favorito'] = 0;
     }
-
-    gravar_contatos($conexao, $contato);
-
-    header('Location: contatos.php');
-    die();
+    
+    if (!$tem_erros) {
+        gravar_contatos($conexao, $contato);
+        header('Location: contatos.php');
+        die();
+    }
 }
 
 $contato = [
     'id' => 0,
-    'nome' => '',
-    'telefone' => '',
-    'email' => '',
-    'descricao' => '',
-    'nascimento' => '',
-    'favorito' => ''        
+    'nome' => $_POST['nome'] ?? '',
+    'telefone' => $_POST['telefone'] ?? '',
+    'email' => $_POST['email'] ?? '',
+    'descricao' => $_POST['descricao'] ?? '',
+    'nascimento' => (isset($_POST['nascimento'])) ? traduz_nascimento_banco($_POST['nascimento']) : '',
+    'favorito' => $_POST['favorito'] ?? ''        
 ];
 
 $lista_contatos = listar_contatos($conexao);
