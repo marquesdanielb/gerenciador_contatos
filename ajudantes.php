@@ -5,14 +5,26 @@ function traduz_nascimento_banco($data){
         return null;
     }
 
+    $partes = explode('/', $data);
+
+    if (count($partes) != 3) {
+        return $data;
+    }
+
     $data_banco = DateTime::createFromFormat('d/m/Y', $data);
     return $data_banco->format('Y-m-d');
 }
 
 function traduz_nascimento_exibir($data)
 {
-    if ($data == '') {
-        return null;
+    if ($data == '' || $data = "0000-00-00") {
+        return '';
+    }
+
+    $partes = explode('-', $data);
+
+    if (count($partes) != 3) {
+        return $data;
     }
 
     $data_exibir = DateTime::createFromFormat('Y-m-d', $data);
@@ -30,10 +42,6 @@ function valida_nascimento($nascimento)
     }
 
     $partes = explode('/', $nascimento);
-
-    if (count($partes) != 3) {
-        return false;
-    }
 
     $dia = $partes[0];
     $mes = $partes[1];
@@ -87,5 +95,5 @@ function traduz_descricao_banco($descricao)
 
 function tem_post()
 {
-    return (count($_POST) != 0);
+    return (count($_POST) > 0);
 }

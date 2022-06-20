@@ -25,7 +25,7 @@ if(tem_post()){
         $erros_validacao['nome'] = 'O nome do contato é obrigatório';
     }
 
-    if (array_key_exists('telefone', $_POST)) {
+    if (array_key_exists('telefone', $_POST) && strlen($_POST['telefone']) > 0) {
         if (valida_telefone($_POST['telefone'])) {
             $contato['telefone'] = $_POST['telefone'];
         }else {
@@ -34,7 +34,7 @@ if(tem_post()){
         }
     }
 
-    if (array_key_exists('email', $_POST)) {
+    if (array_key_exists('email', $_POST) && strlen($_POST['email']) > 0) {
         if (valida_email($_POST['email'])) {
             $contato['email'] = $_POST['email'];
         }else {
@@ -48,7 +48,7 @@ if(tem_post()){
     }
 
     if (array_key_exists('nascimento', $_POST)) {
-        if (valida_telefone($_POST['nascimento'])) {
+        if (valida_nascimento($_POST['nascimento'])) {
             $contato['nascimento'] = traduz_nascimento_banco($_POST['nascimento']);
         }else {
             $tem_erros = true;
@@ -61,11 +61,13 @@ if(tem_post()){
     }else{
         $contato['favorito'] = 0;
     }
-    
+
+    var_dump($_GET);
+
     if (!$tem_erros) {
         gravar_contatos($conexao, $contato);
-        header('Location: contatos.php');
-        die();
+        // header('Location: contatos.php');
+        // die();
     }
 }
 

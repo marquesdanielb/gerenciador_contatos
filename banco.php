@@ -25,7 +25,7 @@ function listar_contatos($conexao)
 function gravar_contatos($conexao, $contato)
 {
     if($contato['nascimento'] == ''){
-        $nascimento = 'NULL';
+        $nascimento = null;
     }else{
         $nascimento = "'{$contato['nascimento']}'";
     }
@@ -42,7 +42,7 @@ function gravar_contatos($conexao, $contato)
                     {$contato['favorito']}
                 )
             ";
-
+    var_dump($sqlQuery);
     mysqli_query($conexao, $sqlQuery);
 }
 

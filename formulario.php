@@ -12,7 +12,7 @@
         </label>
         <label>
             Telefone:
-            <?php if($tem_erros && array_key_exists('nome', $erros_validacao)) : ?>
+            <?php if($tem_erros && array_key_exists('telefone', $erros_validacao)) : ?>
                 <span class="erro">
                     <?php echo $erros_validacao['telefone']; ?>
                 </span>
@@ -21,7 +21,7 @@
         </label>
         <label>
             Email:
-            <?php if($tem_erros && array_key_exists('nome', $erros_validacao)) : ?>
+            <?php if($tem_erros && array_key_exists('email', $erros_validacao)) : ?>
                 <span class="erro">
                     <?php echo $erros_validacao['email']; ?>
                 </span>
@@ -34,7 +34,7 @@
         </label>
         <label>
             Data de nascimento:
-            <?php if($tem_erros && array_key_exists('nome', $erros_validacao)) : ?>
+            <?php if($tem_erros && array_key_exists('nascimento', $erros_validacao)) : ?>
                 <span class="erro">
                     <?php echo $erros_validacao['nascimento']; ?>
                 </span>
@@ -47,6 +47,6 @@
                 <?php echo ($contato['favorito'] == 1) ? 'checked' : ''; ?>
             >
         </label>
-        <input type="submit" name="cadastrar" value="<?php echo ($contato['id'] > 0 ? 'Atualizar' : 'Cadastrar'); ?>">
+        <input type="submit" value="<?php echo ($contato['id'] > 0 ? 'Atualizar' : 'Cadastrar'); ?>">
     </fieldset>
 </form>
