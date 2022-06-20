@@ -7,10 +7,13 @@ require "ajudantes.php";
 
 $exibir_tabela = false;
 
-if (array_key_exists('nome', $_GET) && $_GET['nome'] != '') {
+$tem_erros = false;
+$erros_validacao = [];
+
+if (tem_post()) {
     $contato = [
-        'id' => $_GET['id'],
-        'nome' => $_GET['nome'],
+        'id' => $_POST['id'],
+        'nome' => $_POST['nome'],
         'telefone' => '',
         'email' => '',
         'descricao' => '',
@@ -18,24 +21,44 @@ if (array_key_exists('nome', $_GET) && $_GET['nome'] != '') {
         'favorito' => ''        
     ];
 
-    if (array_key_exists('telefone', $_GET)) {
-        $contato['telefone'] = $_GET['telefone'];
+    if (strlen($contato['nome']) == 0) {
+        $tem_erros = true;
+        $erros_validacao['nome'] = 'O nome é obrigatório';
     }
 
-    if (array_key_exists('email', $_GET)) {
-        $contato['email'] = $_GET['email'];
+    if (array_key_exists('telefone', $_POST) && $_POST['telefone'] > 0) {
+        if (valida_telefone($_POST['telefone'])) {
+            $contato['telefone'] = $_POST['telefone']; 
+        }else {
+            $tem_erros = true;
+            $erros_validacao['telefone'] = 'O telefone inserido não é válido';
+        }
     }
 
-    if (array_key_exists('descricao', $_GET)) {
-        $contato['descricao'] = $_GET['descricao'];
+    if (array_key_exists('email', $_POST) && $_POST['email'] > 0) {
+        if (valida_email($_POST['email'])) {
+            $contato['email'] = $_POST['email']; 
+        }else {
+            $tem_erros = true;
+            $erros_validacao['email'] = 'O email inserido não é válido';
+        }
     }
 
-    if (array_key_exists('nascimento', $_GET)) {
-        $contato['nascimento'] = traduz_nascimento_banco($_GET['nascimento']);
+    if (array_key_exists('descricao', $_POST)) {
+        $contato['descricao'] = $_POST['descricao'];
     }
 
-    if (array_key_exists('favorito', $_GET)) {
-        $contato['favorito'] = $_GET['favorito'];
+    if (array_key_exists('nascimento', $_POST) && $_POST['nascimento'] > 0) {
+        if (valida_nascimento($_POST['nascimento'])) {
+            $contato['nascimento'] = traduz_nascimento_banco($_POST['nascimento']); 
+        }else {
+            $tem_erros = true;
+            $erros_validacao['nascimento'] = 'A data de nascimento inserida não é válida';
+        }
+    }
+
+    if (array_key_exists('favorito', $_POST)) {
+        $contato['favorito'] = $_POST['favorito'];
     }
 
     editar_contato($conexao, $contato);

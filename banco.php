@@ -42,7 +42,7 @@ function gravar_contatos($conexao, $contato)
                     {$contato['favorito']}
                 )
             ";
-    var_dump($sqlQuery);
+
     mysqli_query($conexao, $sqlQuery);
 }
 

@@ -62,12 +62,10 @@ if(tem_post()){
         $contato['favorito'] = 0;
     }
 
-    var_dump($_GET);
-
     if (!$tem_erros) {
         gravar_contatos($conexao, $contato);
-        // header('Location: contatos.php');
-        // die();
+        header('Location: contatos.php');
+        die();
     }
 }
 
