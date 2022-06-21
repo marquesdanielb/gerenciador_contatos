@@ -61,12 +61,20 @@ if (tem_post()) {
         $contato['favorito'] = $_POST['favorito'];
     }
 
-    editar_contato($conexao, $contato);
-
-    header('Location: contatos.php');
-    die();
+    if (!$tem_erros) {
+        editar_contato($conexao, $contato);
+        header('Location: contatos.php');
+        die();
+    }
 }
 
 $contato = buscar_contato($conexao, $_GET['id']);
+
+$contato['nome'] = (array_key_exists('nome', $_POST) ? $_POST['nome'] : $contato['nome']);
+$contato['telefone'] = (array_key_exists('telefone', $_POST) ? $_POST['telefone'] : $contato['telefone']);
+$contato['email'] = (array_key_exists('email', $_POST) ? $_POST['email'] : $contato['email']);
+$contato['descricao'] = (array_key_exists('descricao', $_POST) ? $_POST['descricao'] : $contato['descricao']);
+$contato['nascimento'] = (array_key_exists('nascimento', $_POST) ? $_POST['nascimento'] : $contato['nascimento']);
+$contato['favorito'] = (array_key_exists('favorito', $_POST) ? $_POST['favorito'] : $contato['favorito']);
 
 require "template.php";

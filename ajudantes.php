@@ -17,7 +17,7 @@ function traduz_nascimento_banco($data){
 
 function traduz_nascimento_exibir($data)
 {
-    if ($data == '' || $data = "0000-00-00") {
+    if ($data == '' || $data == "0000-00-00") {
         return '';
     }
 
