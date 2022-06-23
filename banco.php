@@ -51,7 +51,7 @@ function buscar_contato($conexao, $id)
     $sqlQuery = "SELECT * FROM contatos WHERE id=".$id;
     $resultado = mysqli_query($conexao, $sqlQuery);
 
-        return mysqli_fetch_assoc($resultado);
+    return mysqli_fetch_assoc($resultado);
 }
 
 function editar_contato($conexao, $contato)
@@ -80,4 +80,45 @@ function remover_contato($conexao, $id)
     $sqlQuery = "DELETE FROM contatos WHERE id =".$id;
 
     mysqli_query($conexao, $sqlQuery);
+}
+
+function buscar_anexos($conexao, $contato_id)
+{
+    $sqlQuery = "SELECT * FROM anexos WHERE contato_id=".$contato_id;
+    $resultado = mysqli_query($conexao, $sqlQuery);
+
+    $anexos = [];
+
+    while ($anexo = mysqli_fetch_assoc($resultado)) {
+        $anexos[] = $anexo;
+    }
+
+    return $anexos;
+}
+
+function remover_anexo($conexao, $anexo)
+{
+    $sqlQuery = "DELETE FROM anexos WHERE id=".$anexo['id'];
+    mysqli_query($conexao, $sqlQuery);
+}
+
+function gravar_anexo($conexao, $anexo)
+{
+    $sqlQuery = "INSERT INTO anexos
+                (contato_id, nome, arquivo)
+                VALUES(
+                    {$anexo['contato_id']},
+                    '{$anexo['nome']}',
+                    '{$anexo['arquivo']}'
+                )";
+
+    mysqli_query($conexao, $sqlQuery);
+}
+
+function buscar_anexo($conexao, $id)
+{
+    $sqlQuery = "SELECT * FROM anexos WHERE id=".$id;
+    $resultado = mysqli_query($conexao, $sqlQuery);
+    
+    return mysqli_fetch_assoc($resultado);
 }

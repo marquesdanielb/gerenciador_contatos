@@ -10,7 +10,11 @@
     </tr>
     <?php foreach($lista_contatos as $contatos) : ?>
             <tr>
-                <td><?php echo $contatos['nome']; ?></td>
+                <td>
+                    <a href="contato.php?id=<?php echo $contatos['id']; ?>">
+                        <?php echo $contatos['nome']; ?>
+                    </a>
+                </td>
                 <td><?php echo $contatos['telefone']; ?></td>
                 <td><?php echo $contatos['email']; ?></td>
                 <td><?php echo $contatos['descricao']; ?></td>
