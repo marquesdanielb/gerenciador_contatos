@@ -1,0 +1,17 @@
+{
+    "name": "marquesdanielb/contatos",
+    "description": "Um sistema de cadastro de contatos",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Contatos\\Models\\": "models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Marques Barbosa",
+            "email": "marquesdanielb@gmail.com"
+        }
+    ],
+    "require": {}
+}
